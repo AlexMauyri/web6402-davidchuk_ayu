@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempleOS // Сравнительный анализ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="images/favicon.svg" alt="Иконка TempleOS" class="logo-icon">
+                <div class="site-logo">TempleOS</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="features.html">Особенности</a></li>
+                    <li><a href="table.html">Сравнение</a></li>
+                    <li><a href="https://templeos.org" target="_blank">Официальный архив [templeos.org]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section>
+            <h1>Сравнительный анализ архитектуры</h1>
+            <p>
+                Цель сравнения — показать различия между однопользовательской хобби-системой прямого доступа и многопользовательскими защищёнными ОС общего назначения. TempleOS нельзя рассматривать как замену Linux или Windows, но можно оценить как сольный инженерный манифест.
+            </p>
+            <div class="image-wrapper">
+                <img src="images/templeos-screen.jpg" alt="Графическая среда TempleOS для архитектурного сопоставления">
+            </div>
+        </section>
+
+        <section id="table-container">
+            <h2>Сравнение по ключевым параметрам</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="align-left">Параметр</th>
+                        <th class="align-center">TempleOS</th>
+                        <th class="align-center">Linux</th>
+                        <th class="align-right">Windows</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="align-left">Кольца привилегий</td>
+                        <td class="align-center">Только Ring 0 (все привилегии)</td>
+                        <td class="align-center">Ring 0 (ядро) + Ring 3 (пользователь)</td>
+                        <td class="align-right">Ring 0 (ядро) + Ring 3 (пользователь)</td>
+                    </tr>
+                    <tr>
+                        <td class="align-left">Адресное пространство</td>
+                        <td class="align-center">Плоское (identity mapping, без MMU)</td>
+                        <td class="align-center">Виртуальное (MMU + swap)</td>
+                        <td class="align-right">Виртуальное (MMU + pagefile)</td>
+                    </tr>
+                    <tr>
+                        <td class="align-left">Сетевой стек</td>
+                        <td class="align-center">Отсутствует (изоляция)</td>
+                        <td class="align-center">Полный (TCP/IPv4/IPv6, Berkeley)</td>
+                        <td class="align-right">Полный (TCP/IPv4/IPv6, Winsock)</td>
+                    </tr>
+                    <tr>
+                        <td class="align-left">Графический режим</td>
+                        <td class="align-center">640×480, 16 фиксированных цветов</td>
+                        <td class="align-center">Динамический (Wayland/X11, TrueColor)</td>
+                        <td class="align-right">Динамический (DWM/DirectX, TrueColor)</td>
+                    </tr>
+                    <tr>
+                        <td class="align-left">Язык кодовой базы</td>
+                        <td class="align-center">HolyC (100% ядра и утилит)</td>
+                        <td class="align-center">C, ассемблер, Rust</td>
+                        <td class="align-right">C, C++, C#</td>
+                    </tr>
+                    <tr>
+                        <td class="align-left">Количество разработчиков</td>
+                        <td class="align-center">1 человек (Терри Дэвис)</td>
+                        <td class="align-center">Тысячи (сообщество, вендоры)</td>
+                        <td class="align-right">Тысячи (Microsoft)</td>
+                    </tr>
+                    <tr>
+                        <td class="align-left">Лицензия</td>
+                        <td class="align-center">Public Domain</td>
+                        <td class="align-center">GNU GPL v2</td>
+                        <td class="align-right">Проприетарная</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <article class="summary-article retro-border">
+            <h2>Выводы о назначении систем</h2>
+            <p>
+                TempleOS — не замена Windows или Linux. Это монументальный сольный инженерный манифест в духе ретро-компьютеров. Linux и Windows — массовые многопользовательские системы с защитой памяти, сетью и тысячами драйверов. Сравнение показывает три разных подхода к тому, какой вообще может быть операционная система.
+            </p>
+            <p>
+                В то время как коммерческие и индустриальные решения развиваются по пути изоляции, абстракций и строгой безопасности, архитектура Терри Дэвиса демонстрирует радикальную альтернативу: компьютер как прозрачный монолитный инструмент для одного исследователя.
+            </p>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Учебный проект в рамках лабораторной работы №2.</p>
+        </div>
+    </footer>
+</body>
+</html>
