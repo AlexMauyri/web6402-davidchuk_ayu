@@ -36,6 +36,8 @@ RUN useradd --uid 1000 app && \
 WORKDIR /app
 
 COPY --chown=app:app app ./app
+COPY --chown=app:app alembic.ini ./alembic.ini
+COPY --chown=app:app alembic ./alembic
 
 # ============================================================
 # Runtime: production-образ
