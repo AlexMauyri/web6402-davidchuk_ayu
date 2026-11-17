@@ -6,6 +6,7 @@ from sqlalchemy import Connection, pool
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.db.base import Base
+from app.db import models
 from app.config import settings
 
 

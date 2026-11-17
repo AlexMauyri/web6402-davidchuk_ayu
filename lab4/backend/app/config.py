@@ -1,11 +1,17 @@
 from pathlib import Path
 
 from pydantic import SecretStr, Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=(".env.local"),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+    
     postgres_user: str = Field(alias="POSTGRES_USER")
     postgres_password: SecretStr = Field(alias="POSTGRES_PASSWORD")
     postgres_host: str = Field(alias="POSTGRES_HOST")
