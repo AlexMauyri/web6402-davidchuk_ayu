@@ -13,6 +13,7 @@ from app.db.models import Comment, Thread, User
 from app.schemas import (
     CommentCreate,
     CommentRead,
+    Page,
     ThreadCreate,
     ThreadListItem,
     ThreadRead,
@@ -167,6 +168,38 @@ class SchemaTests(unittest.TestCase):
             author=Source(id=1, login="author"),
             created_at=self.created_at,
         ))
+
+    def test_page_counts(self):
+        for total, size, expected in ((0, 20, 0), (1, 20, 1), (20, 20, 1), (21, 20, 2)):
+            with self.subTest(total=total):
+                dto = Page[ThreadListItem](items=[], total=total, page=1, page_size=size)
+                self.assertEqual(dto.total_pages, expected)
+                self.assertEqual(json.loads(dto.model_dump_json())["total_pages"], expected)
+
+    def test_page_serializes_both_item_types(self):
+        for item_type, source in ((ThreadListItem, self.thread), (CommentRead, self.comment)):
+            with self.subTest(item_type=item_type.__name__):
+                dto = Page[item_type](items=[source], total=1, page=1, page_size=20)
+                payload = json.loads(dto.model_dump_json())
+                self.assertEqual(payload["items"][0]["id"], source.id)
+                self.assertNotIn("password", dto.model_dump_json())
+                if item_type is ThreadListItem:
+                    self.assertNotIn("text", payload["items"][0])
+                    self.assertEqual(payload["items"][0]["author"], {"id": 1, "login": "author"})
+
+    def test_page_validation(self):
+        valid = {"items": [], "total": 0, "page": 1, "page_size": 20}
+        for changes in (
+            {"total": -1}, {"page": 0}, {"page": True}, {"page": "1"},
+            {"page_size": 0}, {"page_size": 101}, {"page_size": 1.5},
+            {"total_pages": 999},
+        ):
+            with self.subTest(changes=changes):
+                with self.assertRaises(ValidationError):
+                    Page[CommentRead].model_validate({**valid, **changes})
+        dto = Page[CommentRead](items=[], total=0, page=100, page_size=20)
+        self.assertEqual(dto.items, [])
+        self.assertEqual(dto.total_pages, 0)
 
     def test_schemas_import_without_database_settings(self):
         env = {

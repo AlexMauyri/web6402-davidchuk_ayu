@@ -1,6 +1,20 @@
 from typing import Literal
 
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, SecretStr
+from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, SecretStr, computed_field
+
+
+class Page[T](BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    items: list[T]
+    total: int = Field(ge=0, strict=True)
+    page: int = Field(ge=1, strict=True)
+    page_size: int = Field(ge=1, le=100, strict=True)
+
+    @computed_field
+    @property
+    def total_pages(self) -> int:
+        return (self.total + self.page_size - 1) // self.page_size
 
 
 class UserCreate(BaseModel):
