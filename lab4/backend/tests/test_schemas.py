@@ -201,6 +201,29 @@ class SchemaTests(unittest.TestCase):
         self.assertEqual(dto.items, [])
         self.assertEqual(dto.total_pages, 0)
 
+    def test_auth_and_update_requests(self):
+        from app.schemas import (
+            CommentUpdate, ThreadUpdate, UserLogin, UserLoginUpdate, UserPasswordUpdate,
+        )
+        cases = (
+            (UserLogin, {"login": "a", "password": " secret "}),
+            (UserLoginUpdate, {"login": "new"}),
+            (UserPasswordUpdate, {"current_password": " old ", "new_password": " new "}),
+            (ThreadUpdate, {"title": "Тред", "text": "Текст"}),
+            (CommentUpdate, {"text": "Ответ"}),
+        )
+        for schema, data in cases:
+            with self.subTest(schema=schema.__name__):
+                schema.model_validate(data)
+                for field in data:
+                    with self.assertRaises(ValidationError):
+                        schema.model_validate({**data, field: ""})
+                    with self.assertRaises(ValidationError):
+                        schema.model_validate({key: value for key, value in data.items() if key != field})
+                for field in ("role", "created_by", "user_id", "id"):
+                    with self.assertRaises(ValidationError):
+                        schema.model_validate({**data, field: 1})
+
     def test_schemas_import_without_database_settings(self):
         env = {
             key: value for key, value in os.environ.items()

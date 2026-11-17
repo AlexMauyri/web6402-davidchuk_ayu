@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     postgres_host: str = Field(alias="POSTGRES_HOST")
     postgres_port: int = Field(alias="POSTGRES_PORT")
     postgres_db: str = Field(alias="POSTGRES_DB")
+    session_secret_key: SecretStr | None = Field(default=None, alias="SESSION_SECRET_KEY")
+    session_ttl: int = Field(default=1800, gt=0, alias="SESSION_TTL")
+    cookie_secure: bool = Field(default=True, alias="COOKIE_SECURE")
 
     @property
     def postgres_url(self) -> URL:

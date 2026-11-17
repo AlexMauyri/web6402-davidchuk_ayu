@@ -135,6 +135,47 @@ class CrudIntegrationTests(unittest.IsolatedAsyncioTestCase):
         await self.session.commit()
         async with AsyncSession(bind=self.connection, join_transaction_mode="create_savepoint") as observer:
             self.assertEqual((await crud.get_thread(observer, thread_id)).title, "Сохранён")
+    async def test_service_registration_publications_and_conflicts(self):
+        from app.schemas import CommentCreate, ThreadCreate, ThreadUpdate, UserCreate, UserLogin, UserRead
+        from app.services.auth import AuthService
+        from app.services.comments import CommentService
+        from app.services.exceptions import AccountHasContent, LoginAlreadyExists, PermissionDenied
+        from app.services.threads import ThreadService
+        from app.services.users import UserService
+
+        context = {}
+        auth = AuthService(self.session, context)
+        registered = await auth.register(UserCreate(login="service-user", password=" secret "))
+        with self.assertRaises(LoginAlreadyExists):
+            await auth.register(UserCreate(login="service-user", password="duplicate"))
+        actor = await auth.login(UserLogin(login="service-user", password=" secret "))
+        self.assertEqual(actor.id, registered.id)
+        self.assertEqual((await auth.current_user()).role, "user")
+        threads = ThreadService(self.session)
+        comments = CommentService(self.session)
+        thread = await threads.create(ThreadCreate(title="Сервис", text="Текст"), actor)
+        await comments.create(thread.id, CommentCreate(text="Ответ"), actor)
+        page = await threads.list()
+        self.assertEqual(page.items[0].author.login, actor.login)
+        self.assertEqual((await comments.list(thread.id)).total, 1)
+        stranger = UserRead(id=actor.id + 1000, login="other", role="user")
+        with self.assertRaises(PermissionDenied):
+            await threads.delete(thread.id, stranger)
+        moderator = await auth.register(UserCreate(login="moderator", password="secret"))
+        # Роль назначается доверенным кодом, не HTTP-запросом регистрации.
+        from app.db import crud
+        moderator_orm = await crud.get_user(self.session, moderator.id)
+        moderator_orm.role = "moderator"
+        await self.session.commit()
+        moderator_actor = UserRead.model_validate(moderator_orm)
+        changed = await threads.update(thread.id, ThreadUpdate(title="Модерация", text="Текст"), moderator_actor)
+        self.assertEqual(changed.title, "Модерация")
+        with self.assertRaises(AccountHasContent):
+            await UserService(self.session, context).delete(actor)
+        self.assertIn("user_id", context)
+        await threads.delete(thread.id, moderator_actor)
+        await UserService(self.session, context).delete(actor)
+        self.assertEqual(context, {})
 
 
 if __name__ == "__main__":

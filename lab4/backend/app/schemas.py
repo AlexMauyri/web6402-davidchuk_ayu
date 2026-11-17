@@ -24,6 +24,52 @@ class UserCreate(BaseModel):
     password: SecretStr = Field(min_length=1)
 
 
+class UserLogin(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    login: str = Field(min_length=1)
+    password: SecretStr = Field(min_length=1)
+
+
+class CsrfRead(BaseModel):
+    csrf_token: str
+
+
+class UserLoginUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    login: str = Field(min_length=1)
+
+
+class UserPasswordUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    current_password: SecretStr = Field(min_length=1)
+    new_password: SecretStr = Field(min_length=1)
+
+
+class ThreadUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    title: str = Field(min_length=1)
+    text: str = Field(min_length=1)
+
+
+class CommentUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    text: str = Field(min_length=1)
+
+
+class ErrorDetail(BaseModel):
+    code: str
+    message: str
+
+
+class ErrorResponse(BaseModel):
+    error: ErrorDetail
+
+
 class UserRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
