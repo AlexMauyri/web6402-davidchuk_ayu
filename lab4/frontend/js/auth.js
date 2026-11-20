@@ -145,8 +145,7 @@ form.addEventListener("submit", async (event) => {
                 return;
             }
             render();
-            showStatus("Вход выполнен.");
-            window.location.replace("./index.html");
+            showStatus("Вход выполнен успешно. Вы можете перейти на форум через меню навигации.");
         }
     } catch (error) {
         if (completed) {

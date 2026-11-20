@@ -8,6 +8,12 @@ const hasAuthForm = Boolean(document.querySelector("#auth-form"));
 
 let currentUser = null;
 let busy = false;
+let sessionKnown = false;
+let publicationBusy = false;
+
+export function getHeaderSession() {
+    return { user: currentUser, known: sessionKnown, busy };
+}
 
 function render(user, pending = false) {
     currentUser = user;
@@ -15,20 +21,25 @@ function render(user, pending = false) {
     userLabel.hidden = !user;
     userLabel.textContent = user ? user.login : "";
     logoutButton.hidden = !user;
-    logoutButton.disabled = pending;
+    logoutButton.disabled = pending || publicationBusy;
+    window.dispatchEvent(new CustomEvent("header:session", {
+        detail: { user, known: sessionKnown, busy: pending },
+    }));
 }
 
 async function loadSession() {
-    if (busy) return;
+    if (busy || publicationBusy) return;
     busy = true;
     render(currentUser, true);
     status.textContent = "Проверяем сессию…";
     try {
         const user = await apiRequest("/users/me");
+        sessionKnown = true;
         render(user);
         status.textContent = "";
     } catch (error) {
         if (error.status === 401) {
+            sessionKnown = true;
             render(null);
             status.textContent = "";
         } else {
@@ -41,7 +52,7 @@ async function loadSession() {
 }
 
 async function logout() {
-    if (busy) return;
+    if (busy || publicationBusy) return;
     busy = true;
     render(currentUser, true);
     status.textContent = "Выходим из аккаунта…";
@@ -74,6 +85,14 @@ if (hasAuthForm) {
         render(event.detail.user, event.detail.busy);
     });
 } else {
+    window.addEventListener("forum:busy", (event) => {
+        publicationBusy = event.detail;
+        logoutButton.disabled = busy || publicationBusy;
+    });
+    window.addEventListener("auth:expired", () => {
+        sessionKnown = true;
+        render(null);
+    });
     logoutButton.addEventListener("click", logout);
     window.addEventListener("pageshow", (event) => {
         if (event.persisted) loadSession();

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./images/favicon.svg" type="image/svg+xml">
     <script type="module" src="./js/header-auth.js"></script>
+    <script type="module" src="./js/scroll-reveal.js"></script>
 </head>
 <body>
     <header id="main-header">
@@ -27,6 +28,7 @@
                 <ul>
                     <li><a href="index.html">Главная</a></li>
                     <li><a href="features.html">Особенности</a></li>
+                    <li><a href="forum.html">Форум</a></li>
                     <li><a href="table.html">Сравнение</a></li>
                     <li><a href="https://templeos.org" target="_blank">Официальный архив [templeos.org]</a></li>
                 </ul>
@@ -67,18 +69,18 @@
             </p>
         </section>
 
-        <section id="timeline">
+        <section id="timeline" class="timeline">
             <h2>Этапы разработки (1993–2017)</h2>
             <p class="secondary-text">
                 Хроника трансформации архитектуры и названий независимой операционной системы:
             </p>
-            <ul>
-                <li><strong>1993–2003</strong> — <em>Начало работы</em>: Терри Дэвис постепенно проектирует базовую архитектуру собственной операционной системы, компилятора и системного языка.</li>
-                <li><strong>2005</strong> — <em>J Operating System</em>: первый публичный релиз. Система распространяется с открытым исходным кодом и ориентирована на прямое взаимодействие с железом.</li>
-                <li><strong>2008</strong> — <em>LoseThos</em>: переименование проекта. Основной акцент смещается на встроенный 3D-движок и инструменты для разработки игр.</li>
-                <li><strong>2012</strong> — <em>SparrowOS</em>: промежуточная ревизия. Стабилизация 64-битного режима и доработка файловой системы RedSea.</li>
-                <li><strong>2013</strong> — <em>TempleOS</em>: утверждение финального наименования. Завершение формирования базового инструментального окружения и переход к развитию прикладных подсистем.</li>
-                <li><strong>2017</strong> — <em>Версия 5.03</em>: последнее крупное обновление, выпущенное 20 ноября. После этого авторская разработка была прекращена.</li>
+            <ul class="timeline__list" role="list">
+                <li class="timeline__item"><strong class="timeline__year">1993–2003</strong> — <em>Начало работы</em>: Терри Дэвис постепенно проектирует базовую архитектуру собственной операционной системы, компилятора и системного языка.</li>
+                <li class="timeline__item"><strong class="timeline__year">2005</strong> — <em>J Operating System</em>: первый публичный релиз. Система распространяется с открытым исходным кодом и ориентирована на прямое взаимодействие с железом.</li>
+                <li class="timeline__item"><strong class="timeline__year">2008</strong> — <em>LoseThos</em>: переименование проекта. Основной акцент смещается на встроенный 3D-движок и инструменты для разработки игр.</li>
+                <li class="timeline__item"><strong class="timeline__year">2012</strong> — <em>SparrowOS</em>: промежуточная ревизия. Стабилизация 64-битного режима и доработка файловой системы RedSea.</li>
+                <li class="timeline__item"><strong class="timeline__year">2013</strong> — <em>TempleOS</em>: утверждение финального наименования. Завершение формирования базового инструментального окружения и переход к развитию прикладных подсистем.</li>
+                <li class="timeline__item"><strong class="timeline__year">2017</strong> — <em>Версия 5.03</em>: последнее крупное обновление, выпущенное 20 ноября. После этого авторская разработка была прекращена.</li>
             </ul>
         </section>
     </main>
