@@ -62,6 +62,34 @@ services:
       postgres:
         condition: service_healthy
 
+  seed:
+    image: postgres:18
+    profiles: ["test-data"]
+    entrypoint: ["psql"]
+    command: ["--no-psqlrc", "--set=ON_ERROR_STOP=1", "--file=/seed/demo.sql"]
+    restart: "no"
+    init: true
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      PGHOST: ${POSTGRES_HOST}
+      PGPORT: ${POSTGRES_PORT}
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+    volumes:
+      - ./database/demo.sql:/seed/demo.sql:ro
+    networks:
+      - backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+
   backend:
     build:
       context: ./backend

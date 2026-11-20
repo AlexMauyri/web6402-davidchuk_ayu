@@ -108,6 +108,7 @@ class ThreadRead(BaseModel):
     title: str
     text: str
     created_by: int
+    author: UserSummary
     created_at: AwareDatetime
 
 
@@ -123,5 +124,6 @@ class CommentRead(BaseModel):
     id: int
     thread_id: int
     user_id: int
+    author: UserSummary
     text: str
     created_at: AwareDatetime

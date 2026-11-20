@@ -70,12 +70,16 @@ async def create_thread(
     thread = Thread(title=title, text=text, created_by=created_by)
     session.add(thread)
     await session.flush()
-    await session.refresh(thread)
+    await get_thread(session, thread.id)
     return thread
 
 
 async def get_thread(session: AsyncSession, thread_id: int) -> Thread | None:
-    return await session.scalar(select(Thread).where(Thread.id == thread_id))
+    return await session.scalar(
+        select(Thread)
+        .options(joinedload(Thread.author).load_only(User.id, User.login, raiseload=True))
+        .where(Thread.id == thread_id)
+    )
 
 
 async def list_threads(
@@ -126,7 +130,7 @@ async def create_comment(
     comment = Comment(thread_id=thread_id, user_id=user_id, text=text)
     session.add(comment)
     await session.flush()
-    await session.refresh(comment)
+    await get_comment(session, comment.id, thread_id=thread_id)
     return comment
 
 
@@ -134,7 +138,9 @@ async def get_comment(
     session: AsyncSession, comment_id: int, *, thread_id: int
 ) -> Comment | None:
     return await session.scalar(
-        select(Comment).where(Comment.id == comment_id, Comment.thread_id == thread_id)
+        select(Comment)
+        .options(joinedload(Comment.author).load_only(User.id, User.login, raiseload=True))
+        .where(Comment.id == comment_id, Comment.thread_id == thread_id)
     )
 
 
@@ -147,6 +153,7 @@ async def list_comments(
     )
     result = await session.scalars(
         select(Comment)
+        .options(joinedload(Comment.author).load_only(User.id, User.login, raiseload=True))
         .where(Comment.thread_id == thread_id)
         .order_by(Comment.created_at.asc(), Comment.id.asc())
         .offset(offset)
