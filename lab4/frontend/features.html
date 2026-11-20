@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TempleOS // Технические особенности</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./images/favicon.svg" type="image/svg+xml">
 </head>
 <body>
     <header id="main-header">
         <div class="container">
             <div class="logo-container">
-                <img src="/images/favicon.svg" alt="Иконка TempleOS" class="logo-icon">
+                <img src="./images/favicon.svg" alt="Иконка TempleOS" class="logo-icon">
                 <div class="site-logo">TempleOS</div>
             </div>
             <nav>
@@ -25,9 +25,10 @@
         </div>
     </header>
 
-    <main class="container">
-        <section class="retro-border">
-            <h1>Инженерные решения TempleOS</h1>
+    <main class="container features">
+        <h1 class="features__title">Инженерные решения TempleOS</h1>
+
+        <section class="features__item">
             <h2>Модель Ring-0 и бескомпромиссная память</h2>
             <p>
                 В отличие от традиционных операционных систем, разделяющих адресное пространство на пространство пользователя и пространство ядра, TempleOS полностью функционирует в привилегированном режиме процессора — <strong>Ring 0</strong>.
@@ -37,10 +38,10 @@
             </p>
         </section>
 
-        <section class="code-feature">
+        <section class="features__item">
             <h2>HolyC: компиляция «на лету» (JIT)</h2>
             <div class="image-wrapper">
-                <img src="/images/holyc-code.png" alt="Фрагмент исходного кода на языке HolyC">
+                <img src="./images/holyc-code.png" alt="Фрагмент исходного кода на языке HolyC">
             </div>
             <p>
                 Системным языком TempleOS выступает собственный диалект <em>HolyC</em>. Язык сохраняет синтаксическую базу Си, дополняя её возможностями языков высокого уровня: значениями аргументов функций по умолчанию, встроенным ассемблером x86-64 и поддержкой прямого исполнения выражений вне процедур.
@@ -50,10 +51,10 @@
             </p>
         </section>
 
-        <section class="media-feature">
+        <section class="features__item">
             <h2>Разрешение 640×480 и 16-цветная палитра EGA</h2>
             <div class="image-wrapper">
-                <img src="/images/templeos-screen.jpg" alt="Интерфейс TempleOS в разрешении 640x480">
+                <img src="./images/templeos-screen.jpg" alt="Интерфейс TempleOS в разрешении 640x480">
             </div>
             <p>
                 Графический вывод зафиксирован на аппаратном стандарте VGA: разрешение <span class="text-accent-yellow">640×480 пикселей</span> при фиксированной 16-цветной палитре. Данное ограничение было выбрано сознательно ради абсолютной предсказуемости отрисовки на любом совместимом дисплее и быстроты рендеринга.
@@ -63,7 +64,7 @@
             </p>
         </section>
 
-        <section class="retro-border">
+        <section class="features__item">
             <h2>Подсистемы RedSea и DolDoc</h2>
             <h3>Файловая система RedSea</h3>
             <p>
