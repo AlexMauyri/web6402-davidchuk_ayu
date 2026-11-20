@@ -1,4 +1,4 @@
-from collections.abc import AsyncIterator, Mapping
+from collections.abc import AsyncGenerator, Mapping
 from contextlib import asynccontextmanager
 
 from sqlalchemy.exc import IntegrityError
@@ -30,7 +30,7 @@ async def transaction(
     session: AsyncSession,
     *,
     conflicts: Mapping[tuple[str, str], type[ServiceError]] | None = None,
-) -> AsyncIterator[None]:
+) -> AsyncGenerator[None]:
     try:
         yield
         await session.commit()
