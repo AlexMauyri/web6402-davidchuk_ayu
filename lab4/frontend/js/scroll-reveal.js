@@ -40,7 +40,6 @@ if (targets.length && !reducedMotion.matches && "IntersectionObserver" in window
             });
         }, { threshold: 0, rootMargin: `0px 0px -${Math.min(80, Math.round(window.innerHeight * 0.1))}px 0px` });
 
-        // Не анимируем одновременно родителя и вложенный в него текст.
         targets.forEach((target) => {
             if (targets.some((parent) => parent !== target && parent.contains(target))) return;
             pending.add(target);

@@ -46,7 +46,7 @@ function setMode(nextMode) {
         ? "Создайте аккаунт, затем войдите с выбранными логином и паролем."
         : "Войдите, чтобы участвовать в обсуждениях.";
     submitButton.textContent = register ? "Зарегистрироваться" : "Войти";
-    modeButton.textContent = register ? "Уже есть аккаунт — войти" : "Создать аккаунт";
+    modeButton.textContent = register ? "Уже есть аккаунт - войти" : "Создать аккаунт";
     passwordInput.autocomplete = register ? "new-password" : "current-password";
     passwordInput.value = "";
     rulesInput.checked = false;
@@ -141,7 +141,7 @@ form.addEventListener("submit", async (event) => {
                 if (error.status !== 401) throw error;
                 currentUser = null;
                 render();
-                showStatus("Браузер не сохранил сессию. Разрешите cookie; для локального HTTP в настройках сервера нужен COOKIE_SECURE=false.", true);
+                showStatus("Браузер не сохранил сессию. Разрешите cookie.", true);
                 return;
             }
             render();
