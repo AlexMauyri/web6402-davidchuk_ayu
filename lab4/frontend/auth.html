@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempleOS // Вход и регистрация</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/auth.css">
+    <link rel="icon" href="./images/favicon.svg" type="image/svg+xml">
+    <script type="module" src="./js/auth.js"></script>
+    <script type="module" src="./js/header-auth.js"></script>
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <div class="header-bar">
+                <div class="logo-container">
+                    <img src="./images/favicon.svg" alt="Иконка TempleOS" class="logo-icon">
+                    <div class="site-logo">TempleOS</div>
+                </div>
+                <div class="header-account" aria-label="Учётная запись">
+                    <span class="header-account__user" id="header-user" hidden></span>
+                    <a class="header-account__button" id="header-login" href="auth.html">Войти</a>
+                    <button class="header-account__button" id="logout-button" type="button" hidden disabled>Выйти из аккаунта</button>
+                    <p class="header-account__status" id="header-status" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+            <nav aria-label="Основная навигация">
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="features.html">Особенности</a></li>
+                    <li><a href="forum.html">Форум</a></li>
+                    <li><a href="table.html">Сравнение</a></li>
+                    <li><a href="https://templeos.org" target="_blank" rel="noopener noreferrer">Официальный архив [templeos.org]</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container auth">
+        <h1>Учётная запись форума</h1>
+        <noscript><p class="retro-border">Для входа и регистрации необходимо включить JavaScript.</p></noscript>
+
+        <p id="auth-status" class="auth__status" role="status" aria-live="polite" aria-atomic="true"></p>
+        <button class="auth__button" id="retry-button" type="button" hidden>Повторить подключение</button>
+
+        <section class="retro-border" id="auth-panel" aria-labelledby="auth-title">
+            <h2 id="auth-title">Вход</h2>
+            <p id="auth-description">Войдите, чтобы участвовать в обсуждениях.</p>
+            <form id="auth-form" class="auth-form" method="post" action="/api/auth/login">
+                <fieldset id="auth-fields" class="auth-form__fields" disabled>
+                    <legend class="auth-form__legend">Данные учётной записи</legend>
+                    <div class="auth-form__field">
+                        <label for="login">Логин</label>
+                        <input id="login" name="login" type="text" autocomplete="username" required>
+                    </div>
+                    <div class="auth-form__field">
+                        <label for="password">Пароль</label>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required>
+                    </div>
+                    <div id="rules-field" class="auth-form__field" hidden>
+                        <p id="forum-rules">Правила форума: обсуждайте тему уважительно, не публикуйте спам и чужие персональные данные.</p>
+                        <label class="auth-form__checkbox" for="rules">
+                            <input id="rules" name="rules" type="checkbox" aria-describedby="forum-rules" disabled>
+                            Я ознакомился(-ась) с правилами форума и принимаю их
+                        </label>
+                    </div>
+                    <div class="auth-form__actions">
+                        <button class="auth__button" id="submit-button" type="submit">Войти</button>
+                        <button class="auth__button" id="mode-button" type="button">Создать аккаунт</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Учебный проект в рамках лабораторной работы №4.</p>
+        </div>
+    </footer>
+</body>
+</html>

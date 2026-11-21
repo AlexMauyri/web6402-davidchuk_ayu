@@ -1,0 +1,96 @@
+.auth {
+    max-width: 720px;
+}
+
+.auth h2 {
+    margin-top: 0;
+}
+
+.auth__status {
+    overflow-wrap: anywhere;
+}
+
+.auth__status--error {
+    border-left: 4px solid var(--tos-danger);
+    padding-left: 12px;
+}
+
+.auth-form__fields {
+    border: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+.auth-form__legend {
+    font-weight: bold;
+    margin-bottom: 12px;
+    padding: 0;
+}
+
+.auth-form__field {
+    margin-bottom: 20px;
+}
+
+.auth-form__field > label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.auth-form__field input:not([type="checkbox"]) {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 2px solid var(--tos-black);
+    border-radius: 0;
+    padding: 10px;
+    background-color: var(--tos-white);
+    color: var(--tos-black);
+    font: inherit;
+}
+
+.auth-form__field > .auth-form__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.auth-form__checkbox input {
+    flex-shrink: 0;
+    margin-top: 5px;
+    accent-color: var(--tos-black);
+}
+
+.auth-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.auth__button {
+    max-width: 100%;
+    padding: 8px 14px;
+    border: 2px solid var(--tos-black);
+    border-radius: 0;
+    background-color: var(--tos-white);
+    color: var(--tos-black);
+    font: inherit;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+}
+
+.auth__button:hover:not(:disabled) {
+    background-color: var(--tos-accent);
+}
+
+.auth__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.auth input:focus-visible,
+.auth__button:focus-visible {
+    outline: 3px dashed var(--tos-black);
+    outline-offset: 3px;
+}
